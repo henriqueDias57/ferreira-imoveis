@@ -6,23 +6,28 @@ export async function POST(request: Request) {
     const { email } = await request.json();
 
     if (!email) {
-      return NextResponse.json({ error: 'E-mail é obrigatório.' }, { status: 400 });
+      return NextResponse.json({ error: 'Digite seu e-mail ou nome de usuário.' }, { status: 400 });
     }
 
-    const cleanEmail = email.trim().toLowerCase();
-    const user = await db.user.findUnique({ where: { email: cleanEmail } });
+    const cleanInput = email.trim().toLowerCase();
+    
+    const user = await db.user.findFirst({
+      where: {
+        OR: [
+          { email: cleanInput },
+          { email: { contains: cleanInput } },
+          { name: { contains: cleanInput } },
+        ],
+      },
+    });
 
     if (!user) {
-      // Por segurança, retorna mensagem padrão mesmo se o e-mail não existir
-      return NextResponse.json({
-        success: true,
-        message: 'Se este e-mail estiver cadastrado, um código de recuperação foi enviado.',
-      });
+      return NextResponse.json({ error: 'Nenhum administrador encontrado com este e-mail ou usuário.' }, { status: 404 });
     }
 
-    // Gerar código de 6 dígitos
+    // Gerar código numérico de 6 dígitos
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const expiry = new Date(Date.now() + 30 * 60 * 1000); // Válido por 30 minutos
+    const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hora de validade
 
     await db.user.update({
       where: { id: user.id },
@@ -32,13 +37,13 @@ export async function POST(request: Request) {
       },
     });
 
-    // Retorna mensagem com o código (útil para desenvolvimento/administração direta)
     return NextResponse.json({
       success: true,
-      message: `Código de recuperação gerado com sucesso para ${user.email}.`,
-      code: code, // Disponível para preenchimento rápido
+      userEmail: user.email,
+      message: `Código gerado para ${user.name} (${user.email}).`,
+      code: code,
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Erro ao processar.' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'Erro ao processar recuperação.' }, { status: 500 });
   }
 }

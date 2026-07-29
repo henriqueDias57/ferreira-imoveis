@@ -11,16 +11,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'E-mail e senha são obrigatórios.' }, { status: 400 });
     }
 
-    const user = await db.user.findUnique({ where: { email: email.toLowerCase().trim() } });
+    const cleanInput = email.trim().toLowerCase();
+
+    // Buscar por e-mail exato ou contendo o termo
+    let user = await db.user.findFirst({
+      where: {
+        OR: [
+          { email: cleanInput },
+          { email: { contains: cleanInput } },
+          { name: { contains: cleanInput } },
+        ],
+      },
+    });
 
     if (!user) {
-      return NextResponse.json({ error: 'Credenciais inválidas.' }, { status: 401 });
+      return NextResponse.json({ error: 'E-mail ou usuário não encontrado.' }, { status: 401 });
     }
 
     const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
-      return NextResponse.json({ error: 'Credenciais inválidas.' }, { status: 401 });
+      return NextResponse.json({ error: 'Senha incorreta. Verifique se digitou maiúsculas/minúsculas corretamente.' }, { status: 401 });
     }
 
     const token = await createSessionToken({
