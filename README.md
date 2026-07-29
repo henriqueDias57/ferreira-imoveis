@@ -6,7 +6,7 @@ Desenvolvido com **Next.js (App Router)**, **TypeScript**, **Tailwind CSS (Dark 
 
 ---
 
-## 🏢 Identidade do Negócio
+##  Identidade do Negócio
 
 - **Razão Social**: Afrânio Ramos Ferreira Filho
 - **Nome Fantasia**: Ferreira Imóveis
@@ -22,7 +22,7 @@ Desenvolvido com **Next.js (App Router)**, **TypeScript**, **Tailwind CSS (Dark 
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - **Next.js 15 (App Router)**
 - **TypeScript**
@@ -33,18 +33,17 @@ Desenvolvido com **Next.js (App Router)**, **TypeScript**, **Tailwind CSS (Dark 
 
 ---
 
-## 🔐 Contas Administrativas de Acesso
+##  Contas Administrativas de Acesso
 
 O painel administrativo (`/admin`) é restrito exclusivamente a 2 contas previamente autorizadas (sem tela de cadastro público):
 
-1. **Henrique (Dev / Admin)**: `henrique.dias.ferreira321@gmail.com`
-2. **Maria Fernanda (Corretora / Admin)**: `mferreiraimoveis@creci.org.br`
+1. **Henrique (Dev / Admin)**
+2. **Maria Fernanda (Corretora / Admin)**
 
-*As senhas iniciais de acesso são configuradas no script de seed (`prisma/seed.ts`).*
 
 ---
 
-## 🚀 Como Rodar o Projeto Localmente
+##  Como Rodar o Projeto Localmente
 
 ### 1. Instalar as dependências
 ```bash
@@ -65,7 +64,7 @@ Abra o navegador em [http://localhost:3000](http://localhost:3000).
 
 ---
 
-## 📝 Links Úteis
+##  Links Úteis
 
 - **Área Pública**: [http://localhost:3000](http://localhost:3000)
 - **Imóveis / Busca**: [http://localhost:3000/imoveis](http://localhost:3000/imoveis)
