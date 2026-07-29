@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function FinanciamentoPage() {
   const bancos = [
-    { nome: 'Caixa Econômica Federal', url: 'https://www.caixa.gov.br/voce/habitacao/Paginas/default.aspx', desc: 'Maiores taxas do mercado e programas como MCMV.' },
+    { nome: 'Caixa Econômica Federal', url: 'https://www.caixa.gov.br/voce/habitacao/Paginas/default.aspx', desc: 'Melhores condições do mercado e programas como Minha Casa Minha Vida.' },
     { nome: 'Banco do Brasil', url: 'https://www.bb.com.br/pbb/pagina-inicial/voce/produtos-e-servicos/credito/credito-imobiliario', desc: 'Financiamento com taxas competitivas e prazos longos.' },
     { nome: 'Itaú', url: 'https://www.itau.com.br/emprestimos-financiamentos/credito-imobiliario', desc: 'Financiamento com pré-aprovação online rápida.' },
     { nome: 'Bradesco', url: 'https://banco.bradesco/html/classic/produtos-servicos/emprestimo-e-financiamento/financiamento-imobiliario.shtm', desc: 'Parcelas que cabem no bolso com seguros inclusos.' },
