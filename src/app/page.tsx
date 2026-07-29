@@ -74,43 +74,7 @@ export default async function HomePage() {
       {/* 1. Hero imersivo com imagem principal e busca */}
       <HeroSearch />
 
-      {/* 2. Contadores Dinâmicos de Credibilidade Reativos ao Banco de Dados */}
-      <section className="max-w-7xl mx-auto px-4 -mt-14 relative z-20">
-        <div className="glass-panel border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-slate-800/80">
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
-              {totalPropertiesCount}
-            </div>
-            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
-              Imóveis Disponíveis
-            </p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
-              {totalNeighborhoodsCount}
-            </div>
-            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
-              Bairros Atendidos
-            </p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
-              15
-            </div>
-            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
-              Anos no Mercado
-            </p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-emerald-400 flex items-center justify-center gap-1.5 font-heading">
-              <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-400" /> 100%
-            </div>
-            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
-              Segurança Jurídica
-            </p>
-          </div>
-        </div>
-      </section>
+
 
       {/* 3. Categorias de Imóveis */}
       <section className="max-w-7xl mx-auto px-4 space-y-8">

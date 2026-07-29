@@ -20,7 +20,7 @@ export default function AnunciarPage() {
           Anuncie seu Imóvel com a <span className="text-brandRed-500">Ferreira Imóveis</span>
         </h1>
         <p className="text-slate-400 text-sm leading-relaxed">
-          Quer vender ou alugar seu imóvel em Cruzeiro ou Ubatuba? Preencha o formulário abaixo com as informações básicas e nossa equipe entrará em contato para uma avaliação profissional sem compromisso.
+          Quer vender ou alugar seu imóvel em Cruzeiro ou Ubatuba? Preencha o formulário abaixo com as informações básicas e nossa equipe entrará em contato para uma avaliação profissional.
         </p>
       </div>
 
@@ -38,7 +38,7 @@ export default function AnunciarPage() {
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-brandRed-500 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold text-white">Avaliação Gratuita</h4>
+                  <h4 className="text-xs font-bold text-white">Avaliação Profissional</h4>
                   <p className="text-[11px] text-slate-400">Realizamos uma análise de mercado completa para definir o melhor preço para o seu imóvel.</p>
                 </div>
               </div>
