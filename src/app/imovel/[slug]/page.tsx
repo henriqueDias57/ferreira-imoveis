@@ -191,13 +191,6 @@ export default async function PropertyDetailPage({ params }: PropertyDetailPageP
             </p>
           </div>
 
-          {/* Localização no Mapa */}
-          <div className="bg-[#1E293B] border border-slate-800 rounded-2xl p-6 space-y-4">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <MapPin className="w-5 h-5 text-brandRed-500" /> Localização do Imóvel
-            </h3>
-            <GoogleMapEmbed address={`${property.neighborhood}, ${property.city} - SP`} height="320px" />
-          </div>
         </div>
 
         {/* Coluna Direita: CTA WhatsApp & Form de Interesse */}
