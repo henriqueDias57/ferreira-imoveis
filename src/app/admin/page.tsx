@@ -51,6 +51,12 @@ export default async function AdminDashboardPage() {
           >
             <MessageSquare className="w-4 h-4 text-brandRed-400" /> Caixa de Leads ({leadsCount})
           </Link>
+          <Link
+            href="/admin/recuperar-senha"
+            className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-2 transition border border-slate-700"
+          >
+            Alterar Senha
+          </Link>
           <AdminLogoutButton />
         </div>
       </div>
