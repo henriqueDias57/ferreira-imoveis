@@ -24,26 +24,40 @@ import {
   ArrowRight,
   Sun,
   Sparkles,
+  Map,
 } from 'lucide-react';
 
 export const revalidate = 0;
 
 export default async function HomePage() {
-  const featuredProperties = await db.property.findMany({
-    where: { active: true, featured: true },
-    include: { photos: true },
-    orderBy: { createdAt: 'desc' },
-    take: 6,
-  });
+  // Buscar métricas em tempo real no banco de dados
+  const [
+    featuredProperties,
+    recentProperties,
+    totalPropertiesCount,
+    distinctNeighborhoods,
+  ] = await Promise.all([
+    db.property.findMany({
+      where: { active: true, featured: true },
+      include: { photos: true },
+      orderBy: { createdAt: 'desc' },
+      take: 6,
+    }),
+    db.property.findMany({
+      where: { active: true },
+      include: { photos: true },
+      orderBy: { createdAt: 'desc' },
+      take: 6,
+    }),
+    db.property.count({ where: { active: true } }),
+    db.property.findMany({
+      where: { active: true },
+      select: { neighborhood: true },
+      distinct: ['neighborhood'],
+    }),
+  ]);
 
-  const recentProperties = await db.property.findMany({
-    where: { active: true },
-    include: { photos: true },
-    orderBy: { createdAt: 'desc' },
-    take: 6,
-  });
-
-  const totalPropertiesCount = await db.property.count({ where: { active: true } });
+  const totalNeighborhoodsCount = distinctNeighborhoods.length;
 
   const propertyTypes = [
     { name: 'Apartamento', type: 'APARTAMENTO', icon: Building2, desc: 'Práticos e seguros' },
@@ -60,26 +74,40 @@ export default async function HomePage() {
       {/* 1. Hero imersivo com imagem principal e busca */}
       <HeroSearch />
 
-      {/* 2. Contadores de Credibilidade estilo Glassmorphism */}
-      <section className="max-w-7xl mx-auto px-4 -mt-12 relative z-20">
+      {/* 2. Contadores Dinâmicos de Credibilidade Reativos ao Banco de Dados */}
+      <section className="max-w-7xl mx-auto px-4 -mt-14 relative z-20">
         <div className="glass-panel border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-slate-800/80">
           <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red">+{totalPropertiesCount || 10}</div>
-            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Imóveis Disponíveis</p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red">12+</div>
-            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Bairros Atendidos</p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-gradient-red">15+</div>
-            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Anos no Mercado</p>
-          </div>
-          <div className="space-y-1">
-            <div className="text-3xl sm:text-5xl font-black text-emerald-400 flex items-center justify-center gap-1">
-              <ShieldCheck className="w-9 h-9" /> 100%
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
+              {totalPropertiesCount}
             </div>
-            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Segurança Jurídica</p>
+            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
+              Imóveis Disponíveis
+            </p>
+          </div>
+          <div className="space-y-1">
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
+              {totalNeighborhoodsCount}
+            </div>
+            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
+              Bairros Atendidos
+            </p>
+          </div>
+          <div className="space-y-1">
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red tracking-tight font-heading">
+              15
+            </div>
+            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
+              Anos no Mercado
+            </p>
+          </div>
+          <div className="space-y-1">
+            <div className="text-3xl sm:text-5xl font-black text-emerald-400 flex items-center justify-center gap-1.5 font-heading">
+              <ShieldCheck className="w-8 h-8 sm:w-10 sm:h-10 text-emerald-400" /> 100%
+            </div>
+            <p className="text-[11px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-wider">
+              Segurança Jurídica
+            </p>
           </div>
         </div>
       </section>
@@ -275,7 +303,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 7. Bloco Institucional com a FOTO OFICIAL DA EMPRESA */}
+      {/* 7. Bloco Institucional com FOTO OFICIAL */}
       <section className="max-w-7xl mx-auto px-4">
         <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center shadow-2xl">
           {/* Lado Esquerdo: Foto Oficial da Ferreira Imóveis em Destaque */}
