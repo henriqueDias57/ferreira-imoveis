@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import HeroSearch from '@/components/HeroSearch';
 import PropertyCard from '@/components/PropertyCard';
 import GoogleMapEmbed from '@/components/GoogleMapEmbed';
@@ -22,12 +23,12 @@ import {
   CheckCircle2,
   ArrowRight,
   Sun,
+  Sparkles,
 } from 'lucide-react';
 
-export const revalidate = 0; // Garantir dados atualizados em tempo real
+export const revalidate = 0;
 
 export default async function HomePage() {
-  // Buscar imóveis cadastrados no banco
   const featuredProperties = await db.property.findMany({
     where: { active: true, featured: true },
     include: { photos: true },
@@ -48,49 +49,50 @@ export default async function HomePage() {
     { name: 'Apartamento', type: 'APARTAMENTO', icon: Building2, desc: 'Práticos e seguros' },
     { name: 'Casa', type: 'CASA', icon: HomeIcon, desc: 'Conforto para a família' },
     { name: 'Sobrado', type: 'SOBRADO', icon: Building, desc: 'Espaço e modernidade' },
-    { name: 'Comercial', type: 'COMERCIAL', icon: Store, desc: 'Salões e pontos estratégicos' },
+    { name: 'Comercial', type: 'COMERCIAL', icon: Store, desc: 'Pontos estratégicos' },
     { name: 'Chácara', type: 'CHACARA', icon: Trees, desc: 'Lazer e natureza' },
-    { name: 'Sítio', type: 'SITIO', icon: Mountain, desc: 'Áreas rurais e produtivas' },
+    { name: 'Sítio', type: 'SITIO', icon: Mountain, desc: 'Áreas produtivas' },
     { name: 'Terreno', type: 'TERRENO', icon: Landmark, desc: 'Lotes para construir' },
   ];
 
   return (
-    <div className="space-y-16 pb-16">
-      {/* 1. Hero com busca interativa */}
+    <div className="space-y-20 pb-20">
+      {/* 1. Hero imersivo com imagem principal e busca */}
       <HeroSearch />
 
-      {/* 2. Contadores de Credibilidade */}
-      <section className="max-w-7xl mx-auto px-4 -mt-10 relative z-20">
-        <div className="bg-[#1E293B] border border-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-slate-800">
+      {/* 2. Contadores de Credibilidade estilo Glassmorphism */}
+      <section className="max-w-7xl mx-auto px-4 -mt-12 relative z-20">
+        <div className="glass-panel border border-slate-700/80 rounded-3xl p-6 sm:p-8 shadow-2xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x-0 md:divide-x divide-slate-800/80">
           <div className="space-y-1">
-            <div className="text-3xl sm:text-4xl font-black text-brandRed-500">+{totalPropertiesCount || 10}</div>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Imóveis Disponíveis</p>
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red">+{totalPropertiesCount || 10}</div>
+            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Imóveis Disponíveis</p>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl sm:text-4xl font-black text-brandRed-500">12+</div>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Bairros Atendidos</p>
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red">12+</div>
+            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Bairros Atendidos</p>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl sm:text-4xl font-black text-brandRed-500">15+</div>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Anos de Experiência</p>
+            <div className="text-3xl sm:text-5xl font-black text-gradient-red">15+</div>
+            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Anos no Mercado</p>
           </div>
           <div className="space-y-1">
-            <div className="text-3xl sm:text-4xl font-black text-emerald-400 flex items-center justify-center gap-1">
-              <ShieldCheck className="w-8 h-8" /> 100%
+            <div className="text-3xl sm:text-5xl font-black text-emerald-400 flex items-center justify-center gap-1">
+              <ShieldCheck className="w-9 h-9" /> 100%
             </div>
-            <p className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Segurança Jurídica</p>
+            <p className="text-xs text-slate-300 font-bold uppercase tracking-wider">Segurança Jurídica</p>
           </div>
         </div>
       </section>
 
-      {/* 3. Buscar por Tipo de Imóvel */}
-      <section className="max-w-7xl mx-auto px-4 space-y-6">
-        <div className="text-center space-y-2">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-            Buscar por <span className="text-brandRed-500">Tipo de Imóvel</span>
+      {/* 3. Categorias de Imóveis */}
+      <section className="max-w-7xl mx-auto px-4 space-y-8">
+        <div className="text-center space-y-3">
+          <span className="text-xs font-extrabold text-brandRed-400 uppercase tracking-widest">Variedade de Opções</span>
+          <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
+            Buscar por <span className="text-gradient-red">Tipo de Imóvel</span>
           </h2>
-          <p className="text-slate-400 text-xs sm:text-sm">
-            Navegue pelas categorias e encontre a opção exata para seu perfil
+          <p className="text-slate-400 text-xs sm:text-sm max-w-xl mx-auto">
+            Navegue por categorias exclusivas e encontre a propriedade ideal para comprar, alugar ou passar temporada.
           </p>
         </div>
 
@@ -101,119 +103,119 @@ export default async function HomePage() {
               <Link
                 key={item.type}
                 href={`/imoveis?type=${item.type}`}
-                className="bg-[#1E293B] border border-slate-800/80 hover:border-brandRed-500/50 p-4 rounded-xl text-center space-y-2 group transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brandRed-950/20"
+                className="luxury-card p-5 rounded-2xl text-center space-y-3 group"
               >
-                <div className="w-10 h-10 mx-auto rounded-lg bg-slate-900 flex items-center justify-center text-slate-400 group-hover:bg-brandRed-600 group-hover:text-white transition-colors">
-                  <Icon className="w-5 h-5" />
+                <div className="w-12 h-12 mx-auto rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 group-hover:bg-brandRed-600 group-hover:text-white group-hover:scale-110 transition-all duration-300 shadow-md">
+                  <Icon className="w-6 h-6" />
                 </div>
                 <h3 className="text-xs font-bold text-slate-200 group-hover:text-brandRed-400 transition-colors">
                   {item.name}
                 </h3>
-                <p className="text-[10px] text-slate-500 hidden sm:block">{item.desc}</p>
+                <p className="text-[10px] text-slate-500 hidden sm:block font-medium">{item.desc}</p>
               </Link>
             );
           })}
         </div>
       </section>
 
-      {/* 4. Encontre por Região (Cruzeiro x Ubatuba) */}
-      <section className="max-w-7xl mx-auto px-4 space-y-6">
-        <div className="bg-[#1E293B] border border-slate-800 rounded-3xl p-6 sm:p-10 space-y-8">
+      {/* 4. Destaques por Região (Cruzeiro x Ubatuba) */}
+      <section className="max-w-7xl mx-auto px-4">
+        <div className="glass-panel border border-slate-700/80 rounded-3xl p-6 sm:p-10 space-y-8">
           <div className="flex flex-col md:flex-row justify-between md:items-end gap-4 border-b border-slate-800 pb-6">
             <div className="space-y-2">
-              <span className="text-xs font-bold text-brandRed-400 uppercase tracking-widest">
-                Localização Estratégica
+              <span className="text-xs font-extrabold text-brandRed-400 uppercase tracking-widest">
+                Presença Regional
               </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-                Encontre Imóveis por <span className="text-brandRed-500">Região</span>
+              <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
+                Encontre Imóveis por <span className="text-gradient-red">Região</span>
               </h2>
             </div>
-            <p className="text-slate-400 text-xs sm:text-sm max-w-md">
-              Atuação forte no Vale do Paraíba em Cruzeiro-SP e assessoria completa para imóveis de praia e temporada no litoral de Ubatuba-SP.
+            <p className="text-slate-300 text-xs sm:text-sm max-w-md">
+              Atuação consolidada no Vale do Paraíba em Cruzeiro-SP e atendimento para imóveis de praia em Ubatuba-SP.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Região Cruzeiro */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-brandRed-600/40 transition">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-brandRed-600/20 text-brandRed-400 flex items-center justify-center">
-                  <MapPin className="w-5 h-5" />
+            <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-brandRed-600/50 transition duration-300">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-brandRed-600/20 text-brandRed-400 flex items-center justify-center border border-brandRed-600/30">
+                  <MapPin className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Cruzeiro - SP</h3>
-                  <p className="text-xs text-slate-400">Residencial, Comercial e Rurais</p>
+                  <h3 className="text-xl font-bold text-white">Cruzeiro - SP</h3>
+                  <p className="text-xs text-slate-400">Residencial, Comercial e Áreas Rurais</p>
                 </div>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Opções nos melhores bairros: Centro, Jardim América, Vila Nova, Washington Luiz, Itagaçaba e áreas rurais.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Casas, apartamentos e pontos comerciais no Centro, Jardim América, Vila Nova, Washington Luiz e Itagaçaba.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
                 <Link
                   href="/imoveis?city=Cruzeiro&neighborhood=Centro"
-                  className="px-3 py-1 bg-slate-800 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Centro
                 </Link>
                 <Link
                   href="/imoveis?city=Cruzeiro&neighborhood=Jardim+América"
-                  className="px-3 py-1 bg-slate-800 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Jardim América
                 </Link>
                 <Link
                   href="/imoveis?city=Cruzeiro&neighborhood=Vila+Nova"
-                  className="px-3 py-1 bg-slate-800 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-brandRed-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Vila Nova
                 </Link>
                 <Link
                   href="/imoveis?city=Cruzeiro"
-                  className="px-3 py-1 bg-brandRed-600/20 text-brandRed-400 hover:bg-brandRed-600 hover:text-white text-xs font-bold rounded-lg transition ml-auto flex items-center gap-1"
+                  className="px-3.5 py-1.5 bg-brandRed-600/20 text-brandRed-400 hover:bg-brandRed-600 hover:text-white text-xs font-bold rounded-xl transition ml-auto flex items-center gap-1 border border-brandRed-600/40"
                 >
-                  Ver Todos <ArrowRight className="w-3 h-3" />
+                  Ver Todos <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
 
             {/* Região Ubatuba */}
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-emerald-500/40 transition">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                  <Sun className="w-5 h-5" />
+            <div className="bg-[#111827] border border-slate-800 rounded-2xl p-6 space-y-4 hover:border-emerald-500/50 transition duration-300">
+              <div className="flex items-center gap-3.5">
+                <div className="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+                  <Sun className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Ubatuba - SP (Litoral)</h3>
-                  <p className="text-xs text-slate-400">Temporada e Venda na Praia</p>
+                  <h3 className="text-xl font-bold text-white">Ubatuba - SP (Litoral)</h3>
+                  <p className="text-xs text-slate-400">Imóveis de Temporada e Venda na Praia</p>
                 </div>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Casas e apartamentos pé na areia para férias ou investimento em rentabilidade nas praias mais valorizadas.
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Opções pé na areia para férias em família ou investimento imobiliário nas praias mais procuradas.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
                 <Link
                   href="/imoveis?city=Ubatuba&neighborhood=Praia+Grande"
-                  className="px-3 py-1 bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Praia Grande
                 </Link>
                 <Link
                   href="/imoveis?city=Ubatuba&neighborhood=Tenório"
-                  className="px-3 py-1 bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Tenório
                 </Link>
                 <Link
                   href="/imoveis?city=Ubatuba&neighborhood=Itaguá"
-                  className="px-3 py-1 bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-medium rounded-lg transition"
+                  className="px-3.5 py-1.5 bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white text-xs font-bold rounded-xl transition border border-slate-800"
                 >
                   Itaguá
                 </Link>
                 <Link
                   href="/imoveis?city=Ubatuba"
-                  className="px-3 py-1 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-600 hover:text-white text-xs font-bold rounded-lg transition ml-auto flex items-center gap-1"
+                  className="px-3.5 py-1.5 bg-emerald-500/20 text-emerald-400 hover:bg-emerald-600 hover:text-white text-xs font-bold rounded-xl transition ml-auto flex items-center gap-1 border border-emerald-500/40"
                 >
-                  Ver Todos <ArrowRight className="w-3 h-3" />
+                  Ver Todos <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
@@ -222,17 +224,17 @@ export default async function HomePage() {
       </section>
 
       {/* 5. Imóveis em Destaque */}
-      <section className="max-w-7xl mx-auto px-4 space-y-6">
+      <section className="max-w-7xl mx-auto px-4 space-y-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold text-brandRed-400 uppercase tracking-widest">Seleção Especial</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Imóveis em <span className="text-brandRed-500">Destaque</span>
+          <div className="space-y-1">
+            <span className="text-xs font-extrabold text-brandRed-400 uppercase tracking-widest">Oportunidades</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
+              Imóveis em <span className="text-gradient-red">Destaque</span>
             </h2>
           </div>
           <Link
             href="/imoveis"
-            className="text-xs font-bold text-slate-300 hover:text-brandRed-400 flex items-center gap-1 transition"
+            className="text-xs font-bold text-slate-300 hover:text-brandRed-400 flex items-center gap-1.5 transition bg-slate-900 border border-slate-800 px-4 py-2 rounded-xl"
           >
             Ver catálogo completo <ArrowRight className="w-4 h-4" />
           </Link>
@@ -249,20 +251,20 @@ export default async function HomePage() {
         )}
       </section>
 
-      {/* 6. Seção Novidades */}
-      <section className="max-w-7xl mx-auto px-4 space-y-6">
+      {/* 6. Novidades */}
+      <section className="max-w-7xl mx-auto px-4 space-y-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-          <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Recém-adicionados</span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Últimas <span className="text-brandRed-500">Novidades</span>
+          <div className="space-y-1">
+            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Recém-Cadastrados</span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white font-heading">
+              Últimas <span className="text-gradient-red">Novidades</span>
             </h2>
           </div>
           <Link
             href="/imoveis"
-            className="text-xs font-bold text-slate-300 hover:text-brandRed-400 flex items-center gap-1 transition"
+            className="text-xs font-bold text-slate-300 hover:text-brandRed-400 flex items-center gap-1.5 transition bg-slate-900 border border-slate-800 px-4 py-2 rounded-xl"
           >
-            Ver todos as novidades <ArrowRight className="w-4 h-4" />
+            Ver todas as novidades <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -273,39 +275,58 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 7. Bloco Institutional "Sobre Nós" */}
+      {/* 7. Bloco Institucional com a FOTO OFICIAL DA EMPRESA */}
       <section className="max-w-7xl mx-auto px-4">
-        <div className="bg-[#1E293B] border border-slate-800 rounded-3xl p-6 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="bg-[#111827] border border-slate-800 rounded-3xl p-6 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center shadow-2xl">
+          {/* Lado Esquerdo: Foto Oficial da Ferreira Imóveis em Destaque */}
+          <div className="lg:col-span-5">
+            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border-2 border-brandRed-600/40 shadow-2xl shadow-brandRed-950/50 group">
+              <Image
+                src="/ferreira-foto.jpg"
+                alt="Equipe Ferreira Imóveis"
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              
+              <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-[#070A12]/90 backdrop-blur-md border border-slate-700/80 space-y-1">
+                <p className="text-white text-xs font-bold">Ferreira Imóveis — Tradição e Transparência</p>
+                <p className="text-[11px] text-brandRed-400 font-mono">CRECI 130906-F / 198557-F</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Lado Direito: Texto Institucional */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-brandRed-600/20 text-brandRed-400 text-xs font-bold uppercase">
-              <Award className="w-4 h-4" /> Tradição e Transparência
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brandRed-600/20 text-brandRed-400 text-xs font-extrabold uppercase border border-brandRed-600/30">
+              <Award className="w-4 h-4 text-brandRed-500" /> Tradição & Segurança Jurídica
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
-              Segurança Jurídica e Atendimento Personalizado com a <span className="text-brandRed-500">Ferreira Imóveis</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-white leading-tight font-heading">
+              Consultoria Imobiliária Completa com a <span className="text-gradient-red">Ferreira Imóveis</span>
             </h2>
 
             <p className="text-slate-300 text-sm leading-relaxed">
-              A Ferreira Imóveis é conduzida pelos corretores <strong className="text-white">Afrânio Ramos Ferreira Filho</strong> (CRECI 130906-F) e <strong className="text-white">Maria Fernanda Ferreira</strong> (CRECI 198557-F). Nossa missão é prestar serviços imobiliários e consultoria de alta qualidade, sempre fundamentados na transparência e no respeito às famílias.
+              A Ferreira Imóveis é conduzida pelos corretores <strong className="text-white font-semibold">Afrânio Ramos Ferreira Filho</strong> (CRECI 130906-F) e <strong className="text-white font-semibold">Maria Fernanda Ferreira</strong> (CRECI 198557-F). Nossa missão é prestar consultoria imobiliária de excelência, pautada pela transparência e credibilidade.
             </p>
 
             <p className="text-slate-300 text-sm leading-relaxed">
-              Atuamos na locação e venda de imóveis residenciais e comerciais, consultoria completa e elaboração de laudos formais de avaliação. Todos os nossos contratos atendem rigorosamente à legislação vigente, garantindo total amparo legal a proprietários, compradores e inquilinos.
+              Atuamos na locação e venda de imóveis comerciais e residenciais, consultoria especializada e elaboração de laudos de avaliação com rigor técnico. Todos os nossos contratos cumprem integralmente a legislação vigente, proporcionando total amparo jurídico a proprietários, compradores e inquilinos.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="flex items-start gap-3 bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+              <div className="flex items-start gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
                 <CheckCircle2 className="w-5 h-5 text-brandRed-500 shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="text-xs font-bold text-white">Contratos Claros</h4>
-                  <p className="text-[11px] text-slate-400">Proteção jurídica total em vendas e locações.</p>
+                  <h4 className="text-xs font-bold text-white">Contratos Seguros</h4>
+                  <p className="text-[11px] text-slate-400">Proteção jurídica sob a legislação em vigor.</p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 bg-slate-900/80 p-4 rounded-xl border border-slate-800">
+              <div className="flex items-start gap-3 bg-slate-900 p-4 rounded-2xl border border-slate-800">
                 <CheckCircle2 className="w-5 h-5 text-brandRed-500 shrink-0 mt-0.5" />
                 <div>
                   <h4 className="text-xs font-bold text-white">Laudos de Avaliação</h4>
-                  <p className="text-[11px] text-slate-400">Avaliações precisas de valor de mercado.</p>
+                  <p className="text-[11px] text-slate-400">Laudos formais com precisão de mercado.</p>
                 </div>
               </div>
             </div>
@@ -313,35 +334,10 @@ export default async function HomePage() {
             <div className="pt-2">
               <Link
                 href="/sobre-nos"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brandRed-600 hover:bg-brandRed-700 text-white font-bold text-xs transition shadow-lg shadow-brandRed-900/40"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-brandRed-600 hover:bg-brandRed-700 text-white font-bold text-xs transition shadow-xl shadow-brandRed-900/40 hover:scale-105"
               >
                 Conheça Nossa História Completa <ArrowRight className="w-4 h-4" />
               </Link>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl space-y-6">
-            <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3 flex items-center gap-2">
-              <Users className="w-5 h-5 text-brandRed-500" /> Corretores Responsáveis
-            </h3>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-[#1E293B] border border-slate-800 space-y-1">
-                <h4 className="text-sm font-bold text-white">Afrânio Ramos Ferreira Filho</h4>
-                <p className="text-xs text-brandRed-400 font-mono font-semibold">CRECI n° 130906-F</p>
-                <p className="text-[11px] text-slate-400">Consultor Imobiliário & Perito Avaliador</p>
-              </div>
-
-              <div className="p-4 rounded-xl bg-[#1E293B] border border-slate-800 space-y-1">
-                <h4 className="text-sm font-bold text-white">Maria Fernanda Ferreira</h4>
-                <p className="text-xs text-brandRed-400 font-mono font-semibold">CRECI n° 198557-F</p>
-                <p className="text-[11px] text-slate-400">Consultora Imobiliária & Gestão de Contratos</p>
-              </div>
-            </div>
-
-            <div className="bg-brandRed-950/40 border border-brandRed-600/30 p-4 rounded-xl text-xs text-slate-300 space-y-2">
-              <span className="font-bold text-brandRed-400">Atendimento presencial em Cruzeiro:</span>
-              <p className="text-slate-400 text-[11px]">Rua Professor Virgílio Antunes, 57 - Centro, Cruzeiro - SP</p>
             </div>
           </div>
         </div>
@@ -351,63 +347,63 @@ export default async function HomePage() {
       <section className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
         <Link
           href="/financiamento"
-          className="bg-slate-900 border border-slate-800 hover:border-brandRed-500/50 p-6 rounded-2xl space-y-3 group transition"
+          className="luxury-card p-7 rounded-3xl space-y-4 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-brandRed-600/20 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-colors">
-            <Calculator className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-2xl bg-brandRed-600/20 border border-brandRed-600/40 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-all duration-300">
+            <Calculator className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white group-hover:text-brandRed-400 transition-colors">
+          <h3 className="text-lg font-bold text-white group-hover:text-brandRed-400 transition-colors">
             Simular Financiamento
           </h3>
-          <p className="text-xs text-slate-400">
-            Descubra as taxas e simule as parcelas do seu imóvel através dos principais bancos.
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Consulte as taxas atuais e simule as parcelas do seu imóvel através dos principais bancos.
           </p>
         </Link>
 
         <Link
           href="/anunciar"
-          className="bg-slate-900 border border-slate-800 hover:border-brandRed-500/50 p-6 rounded-2xl space-y-3 group transition"
+          className="luxury-card p-7 rounded-3xl space-y-4 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-brandRed-600/20 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-colors">
-            <Megaphone className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-2xl bg-brandRed-600/20 border border-brandRed-600/40 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-all duration-300">
+            <Megaphone className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white group-hover:text-brandRed-400 transition-colors">
+          <h3 className="text-lg font-bold text-white group-hover:text-brandRed-400 transition-colors">
             Anuncie seu Imóvel
           </h3>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 leading-relaxed">
             Cadastre seu imóvel para venda ou locação com avaliação profissional da nossa equipe.
           </p>
         </Link>
 
         <Link
           href="/imoveis"
-          className="bg-slate-900 border border-slate-800 hover:border-brandRed-500/50 p-6 rounded-2xl space-y-3 group transition"
+          className="luxury-card p-7 rounded-3xl space-y-4 group"
         >
-          <div className="w-10 h-10 rounded-xl bg-brandRed-600/20 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-colors">
-            <HomeIcon className="w-5 h-5" />
+          <div className="w-12 h-12 rounded-2xl bg-brandRed-600/20 border border-brandRed-600/40 text-brandRed-400 flex items-center justify-center group-hover:bg-brandRed-600 group-hover:text-white transition-all duration-300">
+            <HomeIcon className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-white group-hover:text-brandRed-400 transition-colors">
+          <h3 className="text-lg font-bold text-white group-hover:text-brandRed-400 transition-colors">
             Pesquisa por Faixa de Valor
           </h3>
-          <p className="text-xs text-slate-400">
-            Filtre por valores de investimento que cabem exatamente no seu planejamento financeiro.
+          <p className="text-xs text-slate-400 leading-relaxed">
+            Encontre opções de investimento que se ajustam perfeitamente ao seu orçamento.
           </p>
         </Link>
       </section>
 
-      {/* 9 e 10. Mapa e Formulário "Fale com o Corretor" */}
+      {/* 9. Mapa e Formulário Fale com o Corretor */}
       <section className="max-w-7xl mx-auto px-4">
-        <div className="bg-[#1E293B] border border-slate-800 rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div className="glass-panel border border-slate-700/80 rounded-3xl p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 shadow-2xl">
           <div className="lg:col-span-6 space-y-6">
             <div className="space-y-2">
-              <span className="text-xs font-bold text-brandRed-400 uppercase tracking-widest">
+              <span className="text-xs font-extrabold text-brandRed-400 uppercase tracking-widest">
                 Localização do Escritório
               </span>
-              <h2 className="text-2xl font-extrabold text-white">
-                Venha Tomar um Café Conosco em <span className="text-brandRed-500">Cruzeiro</span>
+              <h2 className="text-3xl font-black text-white font-heading">
+                Visite Nossa Sede em <span className="text-gradient-red">Cruzeiro - SP</span>
               </h2>
               <p className="text-xs text-slate-400">
-                Endereço: Rua Professor Virgílio Antunes, 57 - Centro - Cruzeiro - SP
+                Rua Professor Virgílio Antunes, 57 - Centro - Cruzeiro - SP
               </p>
             </div>
 
