@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Property {
+  id           Int      @id @default(autoincrement())
+  code         String   @unique
+  title        String
+  slug         String
+  description  String
+  type         String   // APARTAMENTO, CASA, SOBRADO, COMERCIAL, CHACARA, SITIO, TERRENO
+  purpose      String   // VENDA, LOCACAO, TEMPORADA
+  price        Float
+  condoFee     Float?   @default(0)
+  iptu         Float?   @default(0)
+  city         String   // Cruzeiro, Ubatuba
+  state        String   @default("SP")
+  neighborhood String
+  address      String?
+  bedrooms     Int      @default(0)
+  suites       Int      @default(0)
+  bathrooms    Int      @default(0)
+  parking      Int      @default(0)
+  area         Float    @default(0)
+  featured     Boolean  @default(false)
+  active       Boolean  @default(true)
+  photos       Photo[]
+  leads        Lead[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Photo {
+  id         String   @id @default(uuid())
+  url        String
+  isCover    Boolean  @default(false)
+  order      Int      @default(0)
+  propertyId Int
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+}
+
+model Lead {
+  id         String    @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  message    String
+  type       String    // CONTATO, INTERESSE_IMOVEL, ANUNCIO_PROPRIETARIO, FINANCIAMENTO
+  propertyId Int?
+  property   Property? @relation(fields: [propertyId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+}
