@@ -1,8 +1,13 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
+const jwtSecretEnv = process.env.JWT_SECRET;
+if (process.env.NODE_ENV === 'production' && !jwtSecretEnv) {
+  throw new Error('FATAL: JWT_SECRET environment variable is missing in production!');
+}
+
 const SECRET_KEY = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'ferreira_imoveis_jwt_secret_super_secure_key_2026'
+  jwtSecretEnv || 'ferreira_imoveis_jwt_secret_super_secure_key_2026'
 );
 
 const COOKIE_NAME = 'ferreira_admin_session';

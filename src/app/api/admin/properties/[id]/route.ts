@@ -8,8 +8,13 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   if (!session) return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
 
   const { id } = await params;
+  const numericId = parseInt(id, 10);
+  if (isNaN(numericId)) {
+    return NextResponse.json({ error: 'Identificador de imóvel inválido.' }, { status: 400 });
+  }
+
   const property = await db.property.findUnique({
-    where: { id: Number(id) },
+    where: { id: numericId },
     include: { photos: { orderBy: { order: 'asc' } } },
   });
 
@@ -24,6 +29,10 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
   if (!session) return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
 
   const { id } = await params;
+  const numericId = parseInt(id, 10);
+  if (isNaN(numericId)) {
+    return NextResponse.json({ error: 'Identificador de imóvel inválido.' }, { status: 400 });
+  }
 
   try {
     const body = await request.json();
@@ -43,7 +52,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       + `-${(code || '').toLowerCase()}`;
 
     const property = await db.property.update({
-      where: { id: Number(id) },
+      where: { id: numericId },
       data: {
         code: code?.toUpperCase(),
         title,
@@ -69,7 +78,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     // Se as fotos foram enviadas, substituir
     if (photoUrls && Array.isArray(photoUrls)) {
-      await db.photo.deleteMany({ where: { propertyId: Number(id) } });
+      await db.photo.deleteMany({ where: { propertyId: numericId } });
       for (let i = 0; i < photoUrls.length; i++) {
         if (photoUrls[i]) {
           await db.photo.create({
@@ -97,9 +106,13 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
   if (!session) return NextResponse.json({ error: 'Não autorizado.' }, { status: 401 });
 
   const { id } = await params;
+  const numericId = parseInt(id, 10);
+  if (isNaN(numericId)) {
+    return NextResponse.json({ error: 'Identificador de imóvel inválido.' }, { status: 400 });
+  }
 
   try {
-    await db.property.delete({ where: { id: Number(id) } });
+    await db.property.delete({ where: { id: numericId } });
     return NextResponse.json({ success: true });
   } catch (error) {
     return NextResponse.json({ error: 'Erro ao excluir imóvel.' }, { status: 500 });

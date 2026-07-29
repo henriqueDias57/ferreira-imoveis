@@ -22,8 +22,22 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Proteger rotas do painel /admin (exceto a própria página de login /admin/login)
-  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+  // Rotas públicas do admin que não exigem login prévio
+  const isPublicAdminRoute =
+    pathname === '/admin/login' || pathname === '/admin/recuperar-senha';
+
+  // 1. Proteger APIs administrativas (/api/admin/*)
+  if (pathname.startsWith('/api/admin')) {
+    if (!isAuthenticated) {
+      return NextResponse.json(
+        { error: 'Não autorizado. Acesso restrito a administradores.' },
+        { status: 401 }
+      );
+    }
+  }
+
+  // 2. Proteger páginas administrativas (/admin/*)
+  if (pathname.startsWith('/admin') && !isPublicAdminRoute) {
     if (!isAuthenticated) {
       const loginUrl = new URL('/admin/login', request.url);
       loginUrl.searchParams.set('redirect', pathname);
@@ -31,7 +45,7 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Se já autenticado e tentar acessar /admin/login, redirecionar diretamente para o painel /admin
+  // 3. Se já autenticado e tentar acessar a tela de login, redirecionar para o dashboard
   if (pathname === '/admin/login' && isAuthenticated) {
     return NextResponse.redirect(new URL('/admin', request.url));
   }
@@ -40,5 +54,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/api/admin/:path*'],
 };

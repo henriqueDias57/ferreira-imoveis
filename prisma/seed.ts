@@ -12,8 +12,9 @@ async function main() {
   await prisma.property.deleteMany();
   await prisma.user.deleteMany();
 
-  // Hash da senha inicial para admins
-  const defaultPasswordHash = await bcrypt.hash('Ferreira2026@Admin', 10);
+  // Hash da senha inicial para admins (lida de variável de ambiente ou fallback dev)
+  const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Ferreira2026@Admin';
+  const defaultPasswordHash = await bcrypt.hash(initialPassword, 10);
 
   // 1. Criar as 2 contas administrativas oficiais
   const userHenrique = await prisma.user.create({

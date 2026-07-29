@@ -1,8 +1,20 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
+import { checkRateLimit } from '@/lib/rateLimit';
 
 export async function POST(request: Request) {
   try {
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0] || '127.0.0.1';
+    
+    // Rate limit: max 5 solicitações por 15 minutos por IP
+    const rateCheck = checkRateLimit(`forgot_${clientIp}`, 5, 15 * 60 * 1000);
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: `Muitas solicitações. Por favor, aguarde ${rateCheck.retryAfterSeconds} segundos.` },
+        { status: 429 }
+      );
+    }
+
     const { email } = await request.json();
 
     if (!email) {
@@ -44,6 +56,6 @@ export async function POST(request: Request) {
       code: code,
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || 'Erro ao processar recuperação.' }, { status: 500 });
+    return NextResponse.json({ error: 'Erro ao processar solicitação.' }, { status: 500 });
   }
 }
